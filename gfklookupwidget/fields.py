@@ -28,10 +28,13 @@ class GfkLookupField(django.db.models.PositiveIntegerField):
     on the content_type field currently selected by the user.
     """
 
-    def __init__(self, content_type_field_name, *args, **kwargs):
+    def __init__(self, content_type_field_name=None, *args, **kwargs):
         """When you created you generic relation, you added a 'content_type'
         field (a foreign key to the contenttypes framework). The
         content_type_field_name is a string with the name of that field.
+
+        This field is required, but initialized to None so that it will work
+        with South migrations.
         """
 
         self.content_type_field_name = content_type_field_name
