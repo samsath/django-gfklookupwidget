@@ -52,11 +52,11 @@ class GfkLookupWidget(django.forms.Widget):
         # JavaScript to get the URL based on the <select> box markup.
         urls = {}
         for type_id, type_name in choices:
-            type_name = type_name.replace(' ', '')
-
             # This is the default "-------" entry.
             if not type_id:
                 continue
+
+            content_type = django.contrib.contenttypes.models.ContentType.objects.get(id=type_id)
 
             # The URLs for the anchors used by showRelatedObjectLookupPopup
             # have the form of:
@@ -65,8 +65,8 @@ class GfkLookupWidget(django.forms.Widget):
             #     /myapp/foomodel/?t=id
             url = django.core.urlresolvers.reverse(
                 'admin:{app}_{model}_changelist'.format(
-                    app=model._meta.app_label,
-                    model=type_name))
+                    app=content_type.app_label,
+                    model=content_type.model))
 
             # The django.contrib.admin.widgets.ForeignKeyRawIdWidget has some
             # introspection to get the query params. I don't understand it, so,
