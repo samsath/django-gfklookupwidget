@@ -8,8 +8,8 @@ setup(
         'search link.'
     ),
     long_description=(
-        'A widget to replace the object_id in a `generic relation`_ with a ',
-        'search link. It will open a popup to select a related item based on ',
+        'A widget to replace the object_id in a `generic relation`_ with a '
+        'search link. It will open a popup to select a related item based on '
         'the content_type field. It supports inlines.'
     ),
     keywords='django, contenttype, genericforeignkey, generic, relation',
