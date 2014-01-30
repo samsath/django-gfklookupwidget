@@ -14,6 +14,7 @@
 
 import json
 
+import django.core.urlresolvers
 import django.contrib.admin.templatetags.admin_static
 import django.forms
 
@@ -63,10 +64,16 @@ class GfkLookupWidget(django.forms.Widget):
             #
             #     /<app_label>/<model>/?t=<pk_field_name>
             #     /myapp/foomodel/?t=id
-            url = django.core.urlresolvers.reverse(
-                'admin:{app}_{model}_changelist'.format(
-                    app=content_type.app_label,
-                    model=content_type.model))
+            try:
+                url = django.core.urlresolvers.reverse(
+                    'admin:{app}_{model}_changelist'.format(
+                        app=content_type.app_label,
+                        model=content_type.model))
+            except django.core.urlresolvers.NoReverseMatch:
+                # This content type isn't available in the admin, so we can't
+                # provide the lookup. This is common, so we'll just ignore this
+                # one.
+                continue
 
             # The django.contrib.admin.widgets.ForeignKeyRawIdWidget has some
             # introspection to get the query params. I don't understand it, so,
