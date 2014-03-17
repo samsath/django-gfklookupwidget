@@ -80,7 +80,7 @@ class GfkLookupWidget(django.forms.Widget):
             # TODO: Work out query parameter introspection.
             #
             # What does 't' stand for?
-            url += '?t={}'.format(ct_field.rel.get_related_field().name)
+            url += '?t={0}'.format(ct_field.rel.get_related_field().name)
 
             urls[type_name] = url
 
