@@ -14,6 +14,8 @@
 
 import json
 
+from random import randint
+
 import django.core.urlresolvers
 import django.contrib.admin.templatetags.admin_static
 import django.forms
@@ -102,12 +104,12 @@ class GfkLookupWidget(django.forms.Widget):
         # box.
         return django.utils.safestring.mark_safe("""
             <input class="vForeignKeyRawIdAdminField" id="id_{name}" name="{name}" value="{value}" type="text" />
-            <a id="lookup_id_{name}" class="related-lookup gfklookup" onclick="return gfklookupwidget_click(django.jQuery, this, event);">
+            <a id="lookup_id_{name}" class="related-lookup gfklookup" onclick="return gfklookupwidget_{uniq}_click(django.jQuery, this, event);">
                 <img src="{find_image}" width="16" height="16" alt="Find" />
             </a>
             <script type="text/javascript">
-                if (typeof(gfklookupwidget_click) == 'undefined') {{
-                    function gfklookupwidget_click($, element, event) {{
+                if (typeof(gfklookupwidget_{uniq}_click) == 'undefined') {{
+                    function gfklookupwidget_{uniq}_click($, element, event) {{
                         if (event) {{
                             event.preventDefault();
                         }}
@@ -143,6 +145,7 @@ class GfkLookupWidget(django.forms.Widget):
                 }}
             </script>
         """.format(
+            uniq='{:X}'.format(randint(1, 1000000)),
             name=name,
             value=value,
             urls=json.dumps(urls),
